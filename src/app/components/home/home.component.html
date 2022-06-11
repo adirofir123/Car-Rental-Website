@@ -1,0 +1,126 @@
+<!-- השמה של כל עמוד הבית בדיב של סקרולבר -->
+<div class="ex3">
+
+    <!-- הצגת כל הרכבים הקיימים, גם הפנויים וגם מי שלא פנוי -->
+    <span>
+        <h2>Our Cars</h2>
+        <h3>Press a car to add it favorites!</h3>
+        <label>Search car by Manufacturer</label>
+        <input type="search" [(ngModel)]="manufacturerfilter">&nbsp;&nbsp;
+        <!--סינון לפי יצרן-->
+        <label>Search car by Model</label>
+        <input type="search" [(ngModel)]="modelfilter">&nbsp;&nbsp;
+        <!--סינון לפי דגם-->
+        <label>Search car by Year</label>
+        <input type="search" [(ngModel)]="yearfilter">
+        <!--סינון לפי שנת ייצור-->
+        <table>
+            <tr>
+                <th>Car ID</th>
+                <th>Car license</th>
+                <th>Quantity </th>
+                <th>Manufacturer</th>
+                <th>Model</th>
+                <th>Km</th>
+                <th>Year</th>
+                <th>Price</th>
+                <th>Delay Price</th>
+                <th>Available</th>
+                <th>Rentable</th>
+                <th>Picture</th>
+            </tr>
+            <!-- תהליך הסינון לפי בחירת האורח, לפי פרמטים של שנה, דגם וסוג רכב -->
+            <tr *ngFor="let i of ShowCar|searchcarbymanufacturer:manufacturerfilter |searchcarbyModel:modelfilter |searchcarbyYear:yearfilter"
+                (click)="getinfoforLC(i)">
+
+                <td>{{i.carId}}</td>
+                <td>{{i.carNumber}}</td>
+                <td>{{i.quantity}}</td>
+                <td>{{i.manufactor}}</td>
+                <td>{{i.model}}</td>
+                <td>{{i.km}}</td>
+                <td>{{i.year}}</td>
+                <td>{{i.dayPrice}}</td>
+                <td>{{i.delayPrice}}</td>
+                <td>{{i.available}}</td>
+                <td>{{i.rentable}}</td>
+                <td><img src='{{i.picture}}'></td>
+            </tr>
+        </table>
+    </span>
+
+
+    <!-- הצגת הרכבים שסומנו לפי בחירת אורח (לוקל סטורג') -->
+    <span>
+        <div>
+            <p>Favorites</p>
+            <input type="button" value="Show Favorites" (click)="onClickFav()">
+            <table>
+                <tr>
+                    <th>Car ID</th>
+                    <th>Car license</th>
+                    <th>Quantity </th>
+                    <th>Manufacturer</th>
+                    <th>Model</th>
+                    <th>Km</th>
+                    <th>Year</th>
+                    <th>Price</th>
+                    <th>Delay Price</th>
+                    <th>Available</th>
+                    <th>Rentable</th>
+                    <th>Picture</th>
+                </tr>
+                <tr *ngFor="let car of favorites">
+
+                    <td>{{car.carId}}</td>
+                    <td>{{car.carNumber}}</td>
+                    <td>{{car.quantity}}</td>
+                    <td>{{car.manufactor}}</td>
+                    <td>{{car.model}}</td>
+                    <td>{{car.km}}</td>
+                    <td>{{car.year}}</td>
+                    <td>{{car.dayPrice}}</td>
+                    <td>{{car.delayPrice}}</td>
+                    <td>{{car.available}}</td>
+                    <td>{{car.rentable}}</td>
+                    <td><img src='{{car.picture}}'></td>
+                </tr>
+            </table>
+        </div>
+    </span>
+
+
+    <!--חישוב עלות השכרה -->
+    <span>
+        <!-- בחירת תאריכים -->
+        <div class="scroll-container">
+            <h3>Calculate Rent</h3>
+            <span class="scroll-page">
+                <h3>Choose Date</h3>&nbsp;&nbsp;
+                <input type="date" [(ngModel)]="firstDate">&nbsp;Start Date&nbsp;&nbsp;
+                <input type="date" [(ngModel)]="lastDate">&nbsp;End Date&nbsp;&nbsp;
+                <input type="button" value="calculate" (click)="calculateDiff()">{{diff}}
+            </span>
+
+            <!-- בחירת רכב -->
+            <span *ngIf="continue=='choose car'" class="scroll-page">
+                <h3>Get Car Price By Num</h3>&nbsp;&nbsp;
+                <input type="text" [(ngModel)]="carNum" #CarNum placeholder="enter Car Number to get" required
+                    pattern="^[0-9]*$" minlength="7" maxlength="8" name="carNum">&nbsp;&nbsp;
+                <span *ngIf="CarNum.errors?.required && CarNum.touched">Missing Car Number! </span>
+                <span *ngIf="CarNum.errors?.minlength && CarNum.touched">Car Number must be 7-8 Characters long! </span>
+                <span *ngIf="CarNum.errors?.pattern && CarNum.touched">Car Number must be numbers
+                    only!</span>&nbsp;&nbsp;
+                <input type="button" (click)="GetCarPrice(CarNum.value)"
+                    value="GetCarPricePerDay">{{getpricereturn[0].dayPrice}}
+            </span>
+
+            <!-- הפעלת פונקציית החישוב -->
+            <span *ngIf="continue2=='price'" class="scroll-page">
+                <h3>Calculate Price</h3>&nbsp;&nbsp;
+                <input type="button" value="calculate" (click)="FinalPrice()">{{finalPrice}}
+            </span>
+        </div>
+    </span>
+
+</div>

@@ -1,0 +1,208 @@
+<!-- השמה של כל עמוד הבית בדיב של סקרולבר -->
+<div class="ex3">
+
+
+    <!-- תפריט בחירת הפונקציה שאותה המנהל רוצה לבצע -->
+    <input #b1 type="button" (click)="fun1(b1.value)" value="get by carnum">&nbsp;&nbsp;
+    <input #b2 type="button" (click)="fun1(b2.value)" value="get all cars">&nbsp;&nbsp;
+    <input #b3 type="button" (click)="fun1(b3.value)" value="post">&nbsp;&nbsp;
+    <input #b4 type="button" (click)="fun1(b4.value)" value="put">&nbsp;&nbsp;
+    <input #b5 type="button" (click)="fun1(b5.value)" value="delete"><br><br>
+
+
+    <!-- הצגת רכב לפי מספר רכב -->
+    <span *ngIf="chooseAction=='get by carnum'">
+        <h3>Get By Car Number</h3>
+        <input type="text" [(ngModel)]="carNum" #CarNum placeholder="enter Car Number to get" required
+            pattern="^[0-9]*$" minlength="7" maxlength="8" name="carNum"><br>
+        <span *ngIf="CarNum.errors?.required && CarNum.touched">Missing Car Number! </span>
+        <span *ngIf="CarNum.errors?.minlength && CarNum.touched">Car Number must be 7-8 Characters long! </span>
+        <span *ngIf="CarNum.errors?.pattern && CarNum.touched">Car Number must be numbers only!</span><br>
+        <input type="button" (click)="GetCarbyCarNum(CarNum.value)" value="GetCarbyCarNum">
+        <table>
+            <tr>
+                <th>Car ID</th>
+                <th>Car license</th>
+                <th>Quantity </th>
+                <th>Manufacturer</th>
+                <th>Model</th>
+                <th>Km</th>
+                <th>Year</th>
+                <th>Price</th>
+                <th>Delay Price</th>
+                <th>Available</th>
+                <th>Rentable</th>
+                <th>Picture</th>
+            </tr>
+            <tr *ngFor="let i of getbyCarNumReturn">
+                <td>{{i.carId}}</td>
+                <td>{{i.carNumber}}</td>
+                <td>{{i.quantity}}</td>
+                <td>{{i.manufactor}}</td>
+                <td>{{i.model}}</td>
+                <td>{{i.km}}</td>
+                <td>{{i.year}}</td>
+                <td>{{i.dayPrice}}</td>
+                <td>{{i.delayPrice}}</td>
+                <td>{{i.available}}</td>
+                <td>{{i.rentable}}</td>
+                <td><img src='{{i.picture}}'></td>
+            </tr>
+
+        </table>
+    </span>
+
+
+    <!-- הצגת כל הרכבים -->
+    <span *ngIf="chooseAction=='get all cars'">
+        <h3>Get All Cars</h3>
+        <input type="button" (click)="GetallCars()" value="Get All Cars">
+        <table>
+            <tr>
+                <th>Car ID</th>
+                <th>Car license</th>
+                <th>Quantity </th>
+                <th>Manufacturer</th>
+                <th>Model</th>
+                <th>Km</th>
+                <th>Year</th>
+                <th>Price</th>
+                <th>Delay Price</th>
+                <th>Available</th>
+                <th>Rentable</th>
+                <th>Picture</th>
+            </tr>
+            <tr *ngFor="let i of getallCarTypesReturn">
+
+                <td>{{i.carId}}</td>
+                <td>{{i.carNumber}}</td>
+                <td>{{i.quantity}}</td>
+                <td>{{i.manufactor}}</td>
+                <td>{{i.model}}</td>
+                <td>{{i.km}}</td>
+                <td>{{i.year}}</td>
+                <td>{{i.dayPrice}}</td>
+                <td>{{i.delayPrice}}</td>
+                <td>{{i.available}}</td>
+                <td>{{i.rentable}}</td>
+                <td><img src='{{i.picture}}'></td>
+            </tr>
+        </table>
+
+    </span>
+
+
+    <!-- הוספת סוג רכב -->
+    <span *ngIf="chooseAction=='post'">
+        <h3>Post</h3>
+        <form #forminfo="ngForm">
+
+            <input type="text" [(ngModel)]="quantity" #Quantity="ngModel" placeholder="Quantity" required
+                pattern="[0-9]*$" name="quantity"><br>
+            <span *ngIf="Quantity.errors?.pattern && Quantity.touched">Quantity must be numbers only! </span>
+            <span *ngIf="Quantity.errors?.required && Quantity.touched">Missing Quantity! </span><br>
+
+            <input type="text" [(ngModel)]="manufacturer" #Manufacturer="ngModel" placeholder="Manufacturer" required
+                pattern="^[a-zA-Z-0-9]*$" name="manufacturer"><br>
+            <span *ngIf="Manufacturer.errors?.required && Manufacturer.touched">Missing Manufacturer! </span>
+            <span *ngIf="Manufacturer.errors?.pattern && Manufacturer.touched">Manufacturer can not be with special
+                Characters!</span><br>
+
+            <input type="text" [(ngModel)]="model" #Model="ngModel" placeholder="Model" required
+                pattern="^[a-zA-Z-0-9]*$" name="model"><br>
+            <span *ngIf="Model.errors?.required && Model.touched">Missing Model! </span>
+            <span *ngIf="Model.errors?.pattern && Model.touched">Model can not be with special Characters!</span><br>
+
+            <input type="text" [(ngModel)]="dprice" #Dprice="ngModel" placeholder="Day price" required pattern="[0-9]*$"
+                name="dprice"><br>
+            <span *ngIf="Dprice.errors?.pattern && Dprice.touched">Dprice must be numbers only! </span>
+            <span *ngIf="Dprice.errors?.required && Dprice.touched">Missing Dprice ! </span><br>
+
+
+            <input type="text" [(ngModel)]="delayPrice" #DelayPrice="ngModel" placeholder="DelayPrice" required
+                pattern="[0-9]*$" name="delayPrice"><br>
+            <span *ngIf="DelayPrice.errors?.pattern && DelayPrice.touched">DelayPrice must be numbers only! </span>
+            <span *ngIf="DelayPrice.errors?.required && DelayPrice.touched">Missing DelayPrice ! </span><br>
+
+
+
+            <input type="text" [(ngModel)]="year" #Year="ngModel" placeholder="Year" required pattern="[0-9]*$"
+                name="year"><br>
+            <span *ngIf="Year.errors?.pattern && Year.touched">Year must be numbers only! </span>
+            <span *ngIf="Year.errors?.required && Year.touched">Missing Year ! </span><br>
+
+
+            <input [disabled]="!forminfo.form.valid" type="button" value="post" (click)="PostCarType()"><br>
+
+        </form>
+    </span>
+
+
+    <!-- עריכת סוג רכב -->
+    <span *ngIf="chooseAction=='put'">
+        <h3>Put</h3>
+        <form #forminfo="ngForm">
+
+            <input type="text" [(ngModel)]="quantity" #Quantity="ngModel" placeholder="Quantity" required
+                pattern="[0-9]*$" name="quantity"><br>
+            <span *ngIf="Quantity.errors?.pattern && Quantity.touched">Quantity must be numbers only! </span>
+            <span *ngIf="Quantity.errors?.required && Quantity.touched">Missing Quantity! </span><br>
+
+            <input type="text" [(ngModel)]="manufacturer" #Manufacturer="ngModel" placeholder="Manufacturer" required
+                pattern="^[a-zA-Z-0-9]*$" name="manufacturer"><br>
+            <span *ngIf="Manufacturer.errors?.required && Manufacturer.touched">Missing Manufacturer! </span>
+            <span *ngIf="Manufacturer.errors?.pattern && Manufacturer.touched">Manufacturer can not be with special
+                Characters!</span><br>
+
+            <input type="text" [(ngModel)]="model" #Model="ngModel" placeholder="Model" required
+                pattern="^[a-zA-Z-0-9]*$" name="model"><br>
+            <span *ngIf="Model.errors?.required && Model.touched">Missing Model! </span>
+            <span *ngIf="Model.errors?.pattern && Model.touched">Model can not be with special Characters!</span><br>
+
+            <input type="text" [(ngModel)]="dprice" #Dprice="ngModel" placeholder="Day price" required pattern="[0-9]*$"
+                name="dprice"><br>
+            <span *ngIf="Dprice.errors?.pattern && Dprice.touched">Dprice must be numbers only! </span>
+            <span *ngIf="Dprice.errors?.required && Dprice.touched">Missing Dprice ! </span><br>
+
+
+            <input type="text" [(ngModel)]="delayPrice" #DelayPrice="ngModel" placeholder="DelayPrice" required
+                pattern="[0-9]*$" name="delayPrice"><br>
+            <span *ngIf="DelayPrice.errors?.pattern && DelayPrice.touched">DelayPrice must be numbers only! </span>
+            <span *ngIf="DelayPrice.errors?.required && DelayPrice.touched">Missing DelayPrice ! </span><br>
+
+
+            <input type="text" [(ngModel)]="year" #Year="ngModel" placeholder="Year" required pattern="[0-9]*$"
+                name="year"><br>
+            <span *ngIf="Year.errors?.pattern && Year.touched">Year must be numbers only! </span>
+            <span *ngIf="Year.errors?.required && Year.touched">Missing Year ! </span><br>
+
+            <input type="text" [(ngModel)]="carId" #CarId placeholder="CarId" required pattern="[0-9]*$"
+                name="carId"><br>
+            <span *ngIf="CarId.errors?.pattern && CarId.touched">CarId must be numbers only! </span>
+            <span *ngIf="CarId.errors?.required && CarId.touched">Missing CarId ! </span><br>
+
+
+            <input [disabled]="!forminfo.form.valid" type="button" value="put" (click)="PutCarType(CarId.value)"><br>
+
+        </form>
+    </span>
+
+
+    <!-- מחיקת סוג רכב -->
+    <span *ngIf="chooseAction=='delete'">
+        <h3>Delete</h3>
+        <form #forminfo="ngForm">
+
+            <input type="text" [(ngModel)]="carId" #CarId placeholder="CarId" required pattern="^[0-9]*$"
+                name="carId"><br>
+            <span *ngIf="CarId.errors?.required && CarId.touched">Missing Car Id! </span>
+            <span *ngIf="CarId.errors?.pattern && CarId.touched">Car Id must be numbers only!</span><br>
+            <input [disabled]="!forminfo.form.valid" type="button" value="delete"
+                (click)="DeleteCarType(CarId.value)"><br>
+
+        </form>
+
+    </span>
+
+
+</div>

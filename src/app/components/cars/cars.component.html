@@ -1,0 +1,90 @@
+<!-- השמה של כל עמוד הבית בדיב של סקרולבר -->
+<div class="ex3">
+
+    <!-- הזמנת רכב -->
+    <span>
+        <h3>Order a car</h3>
+        <form #forminfo="ngForm">
+
+            <span>Start Date </span>
+            <input type="date" [(ngModel)]="startDate" #ST="ngModel" placeholder="Real Return Date"
+                name="startDate"><br>
+            <span *ngIf="ST.errors?.required && ST.touched">Missing Start Date!</span><br>
+
+            <span>Return Date </span>
+            <input type="date" [(ngModel)]="returnDate" #RD="ngModel" placeholder="Real Return Date"
+                name="returnDate"><br>
+            <span *ngIf="RD.errors?.required && RD.touched">Missing Return Date!</span><br>
+
+
+            <input type="text" [(ngModel)]="carNum" #CarNum="ngModel" placeholder="Car Number" required
+                pattern="[0-9]*$" name="carNum"><br>
+            <span *ngIf="CarNum.errors?.pattern && CarNum.touched">Car Number must be numbers only!</span>
+            <span *ngIf="CarNum.errors?.required && CarNum.touched">Missing Car Number ! </span><br>
+
+            <input [disabled]="!forminfo.form.valid" type="button" value="post" (click)="PostOrder()"><br>
+
+        </form>
+        <br><br><br>
+    </span>
+
+
+    <!-- הצגת פרופיל המשתמש -->
+    <span>
+        <h3>Show my info</h3>
+        <input type="button" (click)="GetUserbytz()" value="Get my info">
+        <table *ngIf="getbytzReturn">
+            <tr>
+                <th>UserId</th>
+                <th>UserTz</th>
+                <th>NickName</th>
+                <th>FullName</th>
+                <th>Bday</th>
+                <th>Gender</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Picture</th>
+            </tr>
+            <tr>
+
+                <td>{{getbytzReturn.userId}}</td>
+                <td>{{getbytzReturn.userTz}}</td>
+                <td>{{getbytzReturn.nickName}}</td>
+                <td>{{getbytzReturn.fullName}}</td>
+                <td>{{getbytzReturn.bday}}</td>
+                <td>{{getbytzReturn.gender}}</td>
+                <td>{{getbytzReturn.email}}</td>
+                <td>{{getbytzReturn.password}}</td>
+                <td><img [src]='img' /></td>
+            </tr>
+
+        </table><br><br><br>
+    </span>
+
+
+    <!-- הצגת כל הזמנות המשתמש -->
+    <form>
+        <h3>Show all my Orders</h3>
+        <button (click)="GetMyOrders()">My Orders</button>
+        <table *ngIf="getmyordersreturn">
+            <tr>
+                <th>User ID</th>
+                <th>Car Number</th>
+                <th>Start Date</th>
+                <th>Return Date</th>
+                <th>Real Return Date</th>
+                <th>Order Number</th>
+            </tr>
+
+            <tr *ngFor="let i of getmyordersreturn">
+                <td>{{i.userId}}</td>
+                <td>{{i.carNum}}</td>
+                <td>{{i.startRentDate}}</td>
+                <td>{{i.returnDate}}</td>
+                <td>{{i.realReturnDate}}</td>
+                <td>{{i.orderNum}}</td>
+            </tr>
+        </table>
+    </form>
+
+</div>

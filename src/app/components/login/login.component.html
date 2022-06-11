@@ -1,0 +1,17 @@
+<!-- התחברות למערכת -->
+<h3>Login</h3>
+<form #forminfo="ngForm">
+
+    <input type="text" [(ngModel)]="nickname" #Nickname="ngModel" placeholder="NickName" required pattern="^[a-zA-Z-0-9]*$" name="nickname"><br>
+    <span *ngIf="Nickname.errors?.required && Nickname.touched">Missing NickName!</span>
+    <span *ngIf="Nickname.errors?.pattern && Nickname.touched">Nickname can not be with special Characters! </span><br>
+
+    <input type="password" [(ngModel)]="password" #Password="ngModel" placeholder="Password"  required pattern="^[A-Z].*$" minlength="6" name="password"><br>
+    <span *ngIf="Password.errors?.required && Password.touched">Missing Password! </span>
+    <span *ngIf="Password.errors?.minlength && Password.touched">Password must be at least 6 Characters long! </span>
+    <span *ngIf="Password.errors?.pattern && Password.touched">Password must start with a capital letter!</span><br>
+    
+
+    <input [disabled]="!forminfo.form.valid" type="button" value="Login" (click)="Login()" routerLink="/home"><br>
+
+</form>

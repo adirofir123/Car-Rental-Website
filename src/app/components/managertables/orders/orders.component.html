@@ -1,0 +1,165 @@
+<!-- השמה של כל עמוד הבית בדיב של סקרולבר -->
+<div class="ex3">
+
+
+    <!-- תפריט בחירת הפונקציה שאותה המנהל רוצה לבצע -->
+    <input #b1 type="button" (click)="fun1(b1.value)" value="get by ordernum">&nbsp;&nbsp;
+    <input #b2 type="button" (click)="fun1(b2.value)" value="get all orders">&nbsp;&nbsp;
+    <input #b3 type="button" (click)="fun1(b3.value)" value="post">&nbsp;&nbsp;
+    <input #b4 type="button" (click)="fun1(b4.value)" value="put">&nbsp;&nbsp;
+    <input #b5 type="button" (click)="fun1(b5.value)" value="delete"><br><br>
+
+
+    <!-- הצגת הזמנה לפי מספר הזמנה -->
+    <span *ngIf="chooseAction=='get by ordernum'">
+        <h3>Get By Order Number</h3>
+        <input type="text" [(ngModel)]="orderNum" #OrderNum="ngModel" placeholder="enter Order ID to get" required
+            pattern="^[0-9]*$" name="orderNum"><br>
+        <span *ngIf="OrderNum.errors?.required && OrderNum.touched">Missing ID! </span>
+        <span *ngIf="OrderNum.errors?.pattern && OrderNum.touched">Order Number must be numbers only!</span><br>
+        <input type="button" (click)="GetOrderByID(OrderNum.value)" value="GetbyOrdernum">
+        <table *ngIf="getbyOrderNumReturn">
+            <tr>
+                <th>UserId</th>
+                <th>Car Number</th>
+                <th>Order Number</th>
+                <th>Start Rent Date</th>
+                <th>Return Date</th>
+                <th>Real Return Date</th>
+            </tr>
+            <tr>
+                <td>{{getbyOrderNumReturn.userId}}</td>
+                <td>{{getbyOrderNumReturn.carNum}}</td>
+                <td>{{getbyOrderNumReturn.orderNum}}</td>
+                <td>{{getbyOrderNumReturn.startRentDate}}</td>
+                <td>{{getbyOrderNumReturn.returnDate}}</td>
+                <td>{{getbyOrderNumReturn.realReturnDate}}</td>
+            </tr>
+
+        </table>
+    </span>
+
+
+    <!-- הצגת כל ההזמנות שבמערכת -->
+    <span *ngIf="chooseAction=='get all orders'">
+        <h3>Get All Orders</h3>
+        <input type="button" (click)="Getallorders()" value="Get All Orders">
+        <table>
+            <tr>
+                <th>UserId</th>
+                <th>Car Number</th>
+                <th>Order Number</th>
+                <th>Start Rent Date</th>
+                <th>Return Date</th>
+                <th>Real Return Date</th>
+            </tr>
+            <tr *ngFor="let i of getallOrdersReturn">
+
+                <td>{{i.userId}}</td>
+                <td>{{i.carNum}}</td>
+                <td>{{i.orderNum}}</td>
+                <td>{{i.startRentDate}}</td>
+                <td>{{i.returnDate}}</td>
+                <td>{{i.realReturnDate}}</td>
+            </tr>
+
+        </table>
+    </span>
+
+
+    <!-- הוספת הזמנה חדשה למערכת -->
+    <span *ngIf="chooseAction=='post'">
+        <h3>Post</h3>
+        <form #forminfo="ngForm">
+
+            <input type="text" [(ngModel)]="userId" #UserId="ngModel" placeholder="User ID" required pattern="[0-9]*$"
+                name="userId"><br>
+            <span *ngIf="UserId.errors?.pattern && UserId.touched">User ID must be numbers only!</span>
+            <span *ngIf="UserId.errors?.required && UserId.touched">Missing User ID!</span><br>
+
+            <span>Start Date </span>
+            <input type="date" [(ngModel)]="startDate" #ST="ngModel" placeholder="Real Return Date"
+                name="startDate"><br>
+            <span *ngIf="ST.errors?.required && ST.touched">Missing Start Date!</span><br>
+
+            <span>Return Date </span>
+            <input type="date" [(ngModel)]="returnDate" #RD="ngModel" placeholder="Real Return Date"
+                name="returnDate"><br>
+            <span *ngIf="RD.errors?.required && RD.touched">Missing Return Date!</span><br>
+
+            <span>Real Return Date </span>
+            <input type="date" [(ngModel)]="realReturnDate" #RRD="ngModel" placeholder="Real Return Date"
+                name="realReturnDate"><br>
+            <span *ngIf="RRD.errors?.required && RRD.touched">Missing Real Return Date!</span><br>
+
+            <input type="text" [(ngModel)]="carNum" #CarNum="ngModel" placeholder="Car Number" required
+                pattern="[0-9]*$" name="carNum"><br>
+            <span *ngIf="CarNum.errors?.pattern && CarNum.touched">Car Number must be numbers only!</span>
+            <span *ngIf="CarNum.errors?.required && CarNum.touched">Missing Car Number ! </span><br>
+
+            <input [disabled]="!forminfo.form.valid" type="button" value="post" (click)="PostOrder()"><br>
+
+        </form>
+    </span>
+
+
+    <!-- עריכת הזמנה קיימת -->
+    <span *ngIf="chooseAction=='put'">
+        <h3>Put</h3>
+        <form #forminfo="ngForm">
+
+            <input type="text" [(ngModel)]="userId" #UserId placeholder="User ID" required pattern="[0-9]*$"
+                name="userId"><br>
+            <span *ngIf="UserId.errors?.pattern && UserId.touched">User ID must be numbers only!</span>
+            <span *ngIf="UserId.errors?.required && UserId.touched">Missing User ID!</span><br>
+
+            <span>Start Date </span>
+            <input type="date" [(ngModel)]="startDate" #ST="ngModel" placeholder="Real Return Date"
+                name="startDate"><br>
+            <span *ngIf="ST.errors?.required && ST.touched">Missing Start Date!</span><br>
+
+            <span>Return Date </span>
+            <input type="date" [(ngModel)]="returnDate" #RD="ngModel" placeholder="Real Return Date"
+                name="returnDate"><br>
+            <span *ngIf="RD.errors?.required && RD.touched">Missing Return Date!</span><br>
+
+            <span>Real Return Date </span>
+            <input type="date" [(ngModel)]="realReturnDate" #RRD="ngModel" placeholder="Real Return Date"
+                name="realReturnDate"><br>
+            <span *ngIf="RRD.errors?.required && RRD.touched">Missing Real Return Date!</span><br>
+
+            <input type="text" [(ngModel)]="carNum" #CarNum="ngModel" placeholder="Car Number" required
+                pattern="[0-9]*$" name="carNum"><br>
+            <span *ngIf="CarNum.errors?.pattern && CarNum.touched">Car Number must be numbers only!</span>
+            <span *ngIf="CarNum.errors?.required && CarNum.touched">Missing Car Number ! </span><br>
+
+
+            <input type="text" [(ngModel)]="orderNum" #OrderNum placeholder="Order Number" required pattern="[0-9]*$"
+                name="orderNum"><br>
+            <span *ngIf="OrderNum.errors?.pattern && OrderNum.touched">Order Numer must be numbers only!</span>
+            <span *ngIf="OrderNum.errors?.required && OrderNum.touched">Missing Order Numer!</span><br>
+
+            <input [disabled]="!forminfo.form.valid" type="button" value="put" (click)="PutOrder(OrderNum.value)"><br>
+
+        </form>
+    </span>
+
+
+    <!-- מחיקת הזמנה -->
+    <span *ngIf="chooseAction=='delete'">
+        <h3>Delete</h3>
+        <form #forminfo="ngForm">
+
+            <input type="text" [(ngModel)]="orderNum" #OrderNum placeholder="enter Order ID to delete" required
+                pattern="^[0-9]*$" name="orderNum"><br>
+            <span *ngIf="OrderNum.errors?.required && OrderNum.OrderNum">Missing ID! </span>
+            <span *ngIf="OrderNum.errors?.pattern && OrderNum.OrderNum">Order Number must be numbers only!</span><br>
+            <input [disabled]="!forminfo.form.valid" type="button" value="delete"
+                (click)="deleteOrder(OrderNum.value)"><br>
+
+
+        </form>
+
+    </span>
+
+</div>

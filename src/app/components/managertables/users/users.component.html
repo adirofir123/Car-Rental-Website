@@ -1,0 +1,262 @@
+<!-- השמה של כל עמוד הבית בדיב של סקרולבר -->
+<div class="ex3">
+
+
+    <!-- תפריט בחירת הפונקציה שאותה המנהל רוצה לבצע -->
+    <input #b1 type="button" (click)="fun1(b1.value)" value="get by tz">&nbsp;&nbsp;
+    <input #b2 type="button" (click)="fun1(b2.value)" value="get all users">&nbsp;&nbsp;
+    <input #b3 type="button" (click)="fun1(b3.value)" value="post">&nbsp;&nbsp;
+    <input #b4 type="button" (click)="fun1(b4.value)" value="put">&nbsp;&nbsp;
+    <input #b5 type="button" (click)="fun1(b5.value)" value="delete"><br><br>
+
+
+    <!-- הצגת משתמש לפי תז -->
+    <span *ngIf="chooseAction=='get by tz'">
+        <h3>Get By Tz</h3>
+        <input type="text" [(ngModel)]="tz" #txtGetbytz="ngModel" placeholder="enter user TZ to get" required
+            pattern="^[0-9]*$" minlength="9" maxlength="9" name="tz"><br>
+        <span *ngIf="txtGetbytz.errors?.required && txtGetbytz.touched">Missing ID! </span>
+        <span *ngIf="txtGetbytz.errors?.minlength && txtGetbytz.touched">ID must be 9 Characters long!</span>
+        <span *ngIf="txtGetbytz.errors?.pattern && txtGetbytz.touched">ID must be numbers only!</span><br>
+        <input type="button" (click)="GetUserbytz(txtGetbytz.value)" value="GetbyTz">
+        <table *ngIf="getbytzReturn">
+            <tr>
+                <th>UserId</th>
+                <th>UserTz</th>
+                <th>NickName</th>
+                <th>FullName</th>
+                <th>Bday</th>
+                <th>Gender</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Role</th>
+                <th>Picture</th>
+            </tr>
+            <tr>
+
+                <td>{{getbytzReturn.userId}}</td>
+                <td>{{getbytzReturn.userTz}}</td>
+                <td>{{getbytzReturn.nickName}}</td>
+                <td>{{getbytzReturn.fullName}}</td>
+                <td>{{getbytzReturn.bday}}</td>
+                <td>{{getbytzReturn.gender}}</td>
+                <td>{{getbytzReturn.email}}</td>
+                <td>{{getbytzReturn.password}}</td>
+                <td>{{getbytzReturn.role}}</td>
+                <td><img [src]='img' /></td>
+            </tr>
+
+        </table>
+    </span>
+
+
+    <!-- הצגת כל המשתמשים הקיימים במערכת -->
+    <span *ngIf="chooseAction=='get all users'">
+        <h3>Get All Users</h3>
+        <input type="button" (click)="Getallusers()" value="Get All Users">
+        <table>
+            <tr>
+                <th>UserId</th>
+                <th>UserTz</th>
+                <th>NickName</th>
+                <th>FullName</th>
+                <th>Bday</th>
+                <th>Gender</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Role</th>
+                <th>Picture</th>
+            </tr>
+            <tr *ngFor="let i of getallusersReturn">
+
+                <td>{{i.userId}}</td>
+                <td>{{i.userTz}}</td>
+                <td>{{i.nickName}}</td>
+                <td>{{i.fullName}}</td>
+                <td>{{i.bday}}</td>
+                <td>{{i.gender}}</td>
+                <td>{{i.email}}</td>
+                <td>{{i.password}}</td>
+                <td>{{i.role}}</td>
+                <td><img src='{{i.picture}}'></td>
+            </tr>
+
+        </table>
+    </span>
+
+
+    <!-- הוספת משתמש, עובד או מנהל חדש -->
+    <span *ngIf="chooseAction=='post'">
+        <form #forminfo="ngForm">
+            <h3>Post</h3>
+
+
+            <input type="text" [(ngModel)]="fullname" #fullName="ngModel" placeholder="Full Name" required
+                pattern="^[a-zA-Z ]*$" minlength="2" name="fullName"><br>
+            <span *ngIf="fullName.errors?.pattern && fullName.touched">Full name can not be with special Characters or
+                numbers!</span>
+            <span *ngIf="fullName.errors?.minlength && fullName.touched">Full name must be at least 2 Characters long!
+            </span>
+            <span *ngIf="fullName.errors?.required && fullName.touched">Missing Full Name!</span><br>
+
+
+            <input type="text" [(ngModel)]="tz" #Tz="ngModel" placeholder="Tz" required pattern="^[0-9]*$" minlength="9"
+                maxlength="9" name="tz"><br>
+            <span *ngIf="Tz.errors?.required && Tz.touched">Missing ID! </span>
+            <span *ngIf="Tz.errors?.minlength && Tz.touched">ID must be 9 Characters long! </span>
+            <span *ngIf="Tz.errors?.pattern && Tz.touched">ID must be numbers only!</span><br>
+
+
+            <input type="text" [(ngModel)]="nickname" #Nickname="ngModel" placeholder="NickName" required
+                pattern="^[a-zA-Z-0-9]*$" name="nickname"><br>
+            <span *ngIf="Nickname.errors?.required && Nickname.touched">Missing NickName!</span>
+            <span *ngIf="Nickname.errors?.pattern && Nickname.touched">Nickname can not be with special Characters!
+            </span><br>
+
+            <span>Birth Date </span>
+            <input type="date" [(ngModel)]="dob" #Dob="ngModel" placeholder="Birth Date" required name="dob"><br>
+            <span *ngIf="Dob.errors?.required && Dob.touched">Missing Birth date!</span><br>
+
+
+            <input type="text" [(ngModel)]="email" #Email="ngModel" placeholder="Email" required
+                pattern="^[a-zA-Z-0-9._%+-]+@[a-zA-Z-0-9.-]+\.[a-z]{2,4}$" name="email"><br>
+            <span *ngIf="Email.errors?.pattern && Email.touched">please write an Email pattern! (a@gmail.com)</span>
+            <span *ngIf="Email.errors?.required && Email.touched">Missing Email </span><br>
+
+
+            <input type="password" [(ngModel)]="password" #Password="ngModel" placeholder="Password" required
+                pattern="^[A-Z].*$" minlength="6" name="password"><br>
+            <span *ngIf="Password.errors?.required && Password.touched">Missing Password! </span>
+            <span *ngIf="Password.errors?.minlength && Password.touched">Password must be at least 6 Characters long!
+            </span>
+            <span *ngIf="Password.errors?.pattern && Password.touched">Password must start with a capital
+                letter!</span><br>
+
+
+            <span>Gender </span>
+            <select #Gender="ngModel" required [(ngModel)]="gender" name="gender">
+                <option></option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select><br>
+            <span *ngIf="Gender.errors?.required && Gender.touched">Missing gender!</span><br>
+
+
+
+            <span>Role </span>
+            <select #Role="ngModel" [(ngModel)]="role" required name="Role">
+                <option></option>
+                <option value="user">User</option>
+                <option value="host">Host</option>
+                <option value="employee">Employee</option>
+            </select><br>
+            <span *ngIf="Role.errors?.required && Role.touched">Missing Role!</span><br>
+
+
+
+            <input type="file" #Img placeholder="img"><br><br>
+
+
+            <input [disabled]="!forminfo.form.valid" type="button" value="post" (click)="PostUser()"><br>
+
+        </form>
+    </span>
+
+
+    <!-- עריכת פרטי משתמש, עובד או מנהל -->
+    <span *ngIf="chooseAction=='put'">
+        <form #forminfo="ngForm">
+            <h3>Put</h3>
+
+
+            <input type="text" [(ngModel)]="fullname" #fullName="ngModel" placeholder="Full Name" required
+                pattern="^[a-zA-Z ]*$" minlength="2" name="fullName"><br>
+            <span *ngIf="fullName.errors?.pattern && fullName.touched">Full name can not be with special Characters or
+                numbers!</span>
+            <span *ngIf="fullName.errors?.minlength && fullName.touched">Full name must be at least 2 Characters long!
+            </span>
+            <span *ngIf="fullName.errors?.required && fullName.touched">Missing Full Name!</span><br>
+
+
+            <input type="text" [(ngModel)]="tz" #Tz placeholder="Tz" required pattern="^[0-9]*$" minlength="9"
+                maxlength="9" name="tz"><br>
+            <span *ngIf="Tz.errors?.required && Tz.touched">Missing ID! </span>
+            <span *ngIf="Tz.errors?.minlength && Tz.touched">ID must be 9 Characters long! </span>
+            <span *ngIf="Tz.errors?.pattern && Tz.touched">ID must be numbers only!</span><br>
+
+
+            <input type="text" [(ngModel)]="nickname" #Nickname="ngModel" placeholder="NickName" required
+                pattern="^[a-zA-Z-0-9]*$" name="nickname"><br>
+            <span *ngIf="Nickname.errors?.required && Nickname.touched">Missing NickName!</span>
+            <span *ngIf="Nickname.errors?.pattern && Nickname.touched">Nickname can not be with special Characters!
+            </span><br>
+
+            <span>Birth Date </span>
+            <input type="date" [(ngModel)]="dob" #Dob="ngModel" placeholder="Birth Date" required name="dob"><br>
+            <span *ngIf="Dob.errors?.required && Dob.touched">Missing Birth date!</span><br>
+
+
+            <input type="text" [(ngModel)]="email" #Email="ngModel" placeholder="Email" required
+                pattern="^[a-zA-Z-0-9._%+-]+@[a-zA-Z-0-9.-]+\.[a-z]{2,4}$" name="email"><br>
+            <span *ngIf="Email.errors?.pattern && Email.touched">please write an Email pattern! (a@gmail.com)</span>
+            <span *ngIf="Email.errors?.required && Email.touched">Missing Email </span><br>
+
+
+            <input type="password" [(ngModel)]="password" #Password="ngModel" placeholder="Password" required
+                pattern="^[A-Z].*$" minlength="6" name="password"><br>
+            <span *ngIf="Password.errors?.required && Password.touched">Missing Password! </span>
+            <span *ngIf="Password.errors?.minlength && Password.touched">Password must be at least 6 Characters long!
+            </span>
+            <span *ngIf="Password.errors?.pattern && Password.touched">Password must start with a capital
+                letter!</span><br>
+
+
+            <span>Gender </span>
+            <select #Gender="ngModel" required [(ngModel)]="gender" name="gender">
+                <option></option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select><br>
+            <span *ngIf="Gender.errors?.required && Gender.touched">Missing gender!</span><br>
+
+
+
+            <span>Role </span>
+            <select #Role="ngModel" [(ngModel)]="role" required name="Role">
+                <option></option>
+                <option value="user">User</option>
+                <option value="host">Host</option>
+                <option value="employee">Employee</option>
+            </select><br>
+            <span *ngIf="Role.errors?.required && Role.touched">Missing Role!</span><br>
+
+
+
+            <input type="file" #Img placeholder="img"><br><br>
+
+
+            <input [disabled]="!forminfo.form.valid" type="button" value="put" (click)="PutUser(Tz.value)"><br>
+
+        </form>
+    </span>
+
+
+    <!-- מחיקת משתמש, עובד או מנהל -->
+    <span *ngIf="chooseAction=='delete'">
+        <form #forminfo="ngForm">
+            <h3>Delete</h3>
+
+            <input type="text" [(ngModel)]="tz" #Tz="ngModel" placeholder="Tz" required pattern="^[0-9]*$" minlength="8"
+                maxlength="9" name="tz"><br>
+            <span *ngIf="Tz.errors?.required && Tz.touched">Missing ID! </span>
+            <span *ngIf="Tz.errors?.minlength && Tz.touched">ID must be 9 Characters long!</span>
+            <span *ngIf="Tz.errors?.pattern && Tz.touched">ID must be numbers only!</span><br>
+            <input [disabled]="!forminfo.form.valid" type="button" value="delete" (click)="deleteUser(Tz.value)"><br>
+
+        </form>
+
+    </span>
+
+</div>

@@ -1,0 +1,12 @@
+.scroll-container{
+    scroll-behavior: auto;
+    scroll-behavior: smooth;
+}
+
+.scroll-page{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    
+}

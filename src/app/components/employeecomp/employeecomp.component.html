@@ -1,0 +1,52 @@
+<!-- החזרת רכב -->
+<span>
+    <h3>Put</h3>
+    <form #forminfo="ngForm">
+        <!-- בחירת מספר רכב -->
+        <input type="text" #OrderNum placeholder="Order Number" required pattern="^[0-9]*$" name="orderNum"><br>
+        <span *ngIf="OrderNum.errors?.required && OrderNum.touched">Missing Order Number! </span>
+        <span *ngIf="OrderNum.errors?.pattern && OrderNum.touched">Order Number must be numbers only!</span><br>
+
+        <!-- בחירת תאריכים  -->
+        <span>Real Return Date </span>
+        <input type="date" #RRD [(ngModel)]="rRD" placeholder="Real Return Date" name="returnDate"><br>
+        <span *ngIf="RRD.errors?.required && RRD.touched">Missing Return Date!</span><br>
+
+
+        <input [disabled]="!forminfo.form.valid" type="button" value="put" (click)="PutRRD(OrderNum.value)"><br>
+
+    </form><br><br>
+</span>
+
+
+<!-- חישוב עלות יום איחור -->
+<span>
+    <!-- בחירת תאריך -->
+    <div class="scroll-container">
+        <h3>Calculate Delay Rent</h3>
+        <span class="scroll-page">
+            <h3>Late Date</h3>&nbsp;&nbsp;
+            <input type="date" [(ngModel)]="firstDate">&nbsp;End Date&nbsp;&nbsp;
+            <input type="date" [(ngModel)]="lastDate">&nbsp;RRD&nbsp;&nbsp;
+            <input type="button" value="calculate" (click)="calculateDiff()">{{diff}}
+        </span>
+
+        <!-- לאחר שבחר תאריך יבחר רכב -->
+        <span *ngIf="continue=='choose car'" class="scroll-page">
+            <h3>Get Car Price By Num</h3>&nbsp;&nbsp;
+            <input type="text" [(ngModel)]="carNum" #CarNum placeholder="enter Car Number to get" required
+                pattern="^[0-9]*$" minlength="7" maxlength="8" name="carNum">&nbsp;&nbsp;
+            <span *ngIf="CarNum.errors?.required && CarNum.touched">Missing Car Number! </span>
+            <span *ngIf="CarNum.errors?.minlength && CarNum.touched">Car Number must be 7-8 Characters long! </span>
+            <span *ngIf="CarNum.errors?.pattern && CarNum.touched">Car Number must be numbers only!</span>&nbsp;&nbsp;
+            <input type="button" (click)="GetCarPrice(CarNum.value)"
+                value="GetDelayPricePerDay">{{getpricereturn[0].delayPrice}}
+        </span>
+        
+        <!-- לבסוף יפעיל את פונקציית החישוב הסופית -->
+        <span *ngIf="continue2=='price'" class="scroll-page">
+            <h3>Calculate Delay Price</h3>&nbsp;&nbsp;
+            <input type="button" value="calculate" (click)="FinalPrice()">{{finalPrice}}
+        </span>
+    </div>
+</span>

@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\adiro\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\adiro\\.nuget\\packages"
+    ]
+  }
+}

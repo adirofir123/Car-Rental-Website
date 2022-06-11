@@ -1,0 +1,57 @@
+<!-- הירשמות למערכת -->
+<h3>Register</h3>
+<form #forminfo="ngForm">
+
+    <input type="text" [(ngModel)]="fullname" #fullName="ngModel" placeholder="Full Name" required
+        pattern="^[a-zA-Z ]*$" minlength="2" name="fullName"><br>
+    <span *ngIf="fullName.errors?.pattern && fullName.touched">Full name can not be with special Characters or
+        numbers!</span>
+    <span *ngIf="fullName.errors?.minlength && fullName.touched">Full name must be at least 2 Characters long! </span>
+    <span *ngIf="fullName.errors?.required && fullName.touched">Missing Full Name!</span><br>
+
+
+    <input type="text" [(ngModel)]="tz" #Tz="ngModel" placeholder="Tz" required pattern="^[0-9]*$" minlength="9"
+        maxlength="9" name="tz"><br>
+    <span *ngIf="Tz.errors?.required && Tz.touched">Missing ID! </span>
+    <span *ngIf="Tz.errors?.minlength && Tz.touched">ID must be 9 Characters long! </span>
+    <span *ngIf="Tz.errors?.pattern && Tz.touched">ID must be numbers only!</span><br>
+
+
+    <input type="text" [(ngModel)]="nickname" #Nickname="ngModel" placeholder="NickName" required
+        pattern="^[a-zA-Z-0-9]*$" name="nickname"><br>
+    <span *ngIf="Nickname.errors?.required && Nickname.touched">Missing NickName!</span>
+    <span *ngIf="Nickname.errors?.pattern && Nickname.touched">Nickname can not be with special Characters! </span><br>
+
+    <span>Birth Date</span>
+    <input type="date" [(ngModel)]="dob" #Dob="ngModel" placeholder="Birth Date" required name="dob"><br>
+    <span *ngIf="Dob.errors?.required && Dob.touched">Missing Birth date!</span><br>
+
+
+    <input type="text" [(ngModel)]="email" #Email="ngModel" placeholder="Email" required
+        pattern="^[a-zA-Z-0-9._%+-]+@[a-zA-Z-0-9.-]+\.[a-z]{2,4}$" name="email"><br>
+    <span *ngIf="Email.errors?.pattern && Email.touched">please write an Email pattern! (a@gmail.com)</span>
+    <span *ngIf="Email.errors?.required && Email.touched">Missing Email </span><br>
+
+
+    <input type="password" [(ngModel)]="password" #Password="ngModel" placeholder="Password" required
+        pattern="^[A-Z].*$" minlength="6" name="password"><br>
+    <span *ngIf="Password.errors?.required && Password.touched">Missing Password! </span>
+    <span *ngIf="Password.errors?.minlength && Password.touched">Password must be at least 6 Characters long! </span>
+    <span *ngIf="Password.errors?.pattern && Password.touched">Password must start with a capital letter!</span><br>
+
+
+    <span>Gender</span>
+    <select #Gender="ngModel" required [(ngModel)]="gender" name="gender">
+        <option></option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+    </select>
+    <span *ngIf="Gender.errors?.required && Gender.touched">Missing gender!</span><br><br>
+
+
+    <input type="file" #Img placeholder="img"><br>
+
+    <input [disabled]="!forminfo.form.valid" type="button" value="Register" (click)="register(Img.files)"><br>
+
+</form>

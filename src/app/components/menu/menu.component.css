@@ -1,0 +1,13 @@
+a{
+    font-size: x-large;
+    color: lightseagreen;
+    margin: 10px;
+    display: block;
+}
+
+.active-link{
+    color: brown;
+    font-weight: bold;
+}
+
+

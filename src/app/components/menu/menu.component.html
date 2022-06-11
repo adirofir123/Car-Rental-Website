@@ -1,0 +1,11 @@
+<!-- תפריט שהכפתורים שלו משתנים לפי רול שמתחבר -->
+<a routerLink="home" routerLinkActive="active-link">Home</a>
+<a routerLink="cars" routerLinkActive="active-link" *ngIf="RoleAuth.isuser">Cars</a>
+<a routerLink="register" routerLinkActive="active-link" *ngIf="RoleAuth.notsigned">Register</a>
+<a routerLink="login" routerLinkActive="active-link" *ngIf="RoleAuth.notsigned">Login</a>
+<a routerLink="about" routerLinkActive="active-link">About</a>
+<a routerLink="managercomp" routerLinkActive="active-link" *ngIf="RoleAuth.ishost">Manager</a>
+<a routerLink="employeecomp" routerLinkActive="active-link" *ngIf="RoleAuth.isemployee">Employee</a>
+<a routerLink (click) = "Logout()"  *ngIf="RoleAuth.isuser||RoleAuth.isemployee||RoleAuth.ishost"> Logout</a>
+
+
